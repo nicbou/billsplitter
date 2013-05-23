@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+	{% load i18n %}
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="description" content="">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="{{ STATIC_URL }}js/jquery.numeric.js"></script>
+	<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+	<script src="{{ STATIC_URL }}js/js.js"></script>
+	{% block html_head_extras %}{% endblock %}
+</head>
+<body>
+	<div id="wrapper" class="container">
+		<div class="row-fluid">
+			{% block page %}
+				<div class="span4">
+					{% block sidebar %}
+					
+					{% endblock sidebar %}
+				</div>
+				<div class="span8">
+					{% block content %}
+						
+					{% endblock content %}
+				</div>
+			{% endblock page %}
+		</div>
+	</div>
+</body>
+</html>
