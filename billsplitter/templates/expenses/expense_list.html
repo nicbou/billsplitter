@@ -2,7 +2,10 @@
 {% block page %}
 	{% load i18n %}
 	<h1 class="page-header">
-		<a class="btn btn-primary pull-right" href="{% url 'expense_create' %}"><i class="icon-white icon-plus"></i> {% trans "New expense" %}</a>
+		<div class="pull-right">
+			<a class="btn btn-primary" href="{% url 'expense_create' %}"><i class="icon-white icon-plus"></i> {% trans "Add an expense" %}</a>
+			<a class="btn" href="{% url 'refund_create' %}"><i class="icon-check"></i> {% trans "Refund someone" %}</a>
+		</div>
 		Expenses
 	</h1>
 	<div class="span4 pull-right">
@@ -30,19 +33,36 @@
 		</thead>
 		<tbody>
 			{% for expense in expense_list %}
-				<tr>
-					<td>{{ expense.title }}</td>
-					<td class="hidden-phone">{{ expense.description }}</td>
-					<td>{{ expense.user }}</td>
-					<td>{{ expense.date|date:"M d" }}</td>
-					<td>{{ expense.amount|floatformat:2 }}$</td>
-					<td align="right">
-						<div class="pull-right">
-							<a class="btn btn-small" href="{% url 'expense_update' expense.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit expense" %}</span></a>
-							<a class="btn btn-small" href="{% url 'expense_delete' expense.pk %}"><i class="icon-remove"></i></a>
-						</div>
-					</td>
-				</tr>
+				{% if expense.refund_from %}
+					<tr class="refund info">
+						<td>{{ expense.refund_from }}</td>
+						<td class="hidden-phone">{{ expense.description }}</td>
+						<td>{{ expense.user }}</td>
+						<td>{{ expense.date|date:"M d" }}</td>
+						<td>{{ expense.amount|floatformat:2 }}$</td>
+						<td align="right">
+							<div class="pull-right">
+								<a class="btn btn-small" href="{% url 'refund_delete' expense.refund_from.pk %}"><i class="icon-remove"></i></a>
+							</div>
+						</td>
+					</tr>
+				{% elif expense.refund_to %}
+					{# Nothing, as expected #}
+				{% else %}
+					<tr>
+						<td>{{ expense.title }}</td>
+						<td class="hidden-phone">{{ expense.description }}</td>
+						<td>{{ expense.user }}</td>
+						<td>{{ expense.date|date:"M d" }}</td>
+						<td>{{ expense.amount|floatformat:2 }}$</td>
+						<td align="right">
+							<div class="pull-right">
+								<a class="btn btn-small" href="{% url 'expense_update' expense.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit expense" %}</span></a>
+								<a class="btn btn-small" href="{% url 'expense_delete' expense.pk %}"><i class="icon-remove"></i></a>
+							</div>
+						</td>
+					</tr>
+				{% endif %}
 			{% endfor %}
 		</tbody>
 	</table>

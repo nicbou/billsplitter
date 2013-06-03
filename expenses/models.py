@@ -46,3 +46,24 @@ class Expense(models.Model):
         get_latest_by = 'date'
         verbose_name = _('Expense')
         verbose_name_plural = _('Expenses')
+
+class Refund(models.Model):
+    """
+    A basic expense. Each expense is made by one user, and is added to the user's total expenses
+    """
+    expense_from = models.OneToOneField(Expense, verbose_name=_('From'), related_name='refund_from')
+    expense_to = models.OneToOneField(Expense, verbose_name=_('To'), related_name='refund_to')
+
+    description = models.TextField(verbose_name=_('Notes'), blank=True)
+    
+    def __unicode__(self):
+        return _("Refund to %s") % self.expense_to.user
+
+    def delete(self, *args, **kwargs):
+        self.expense_from.delete()
+        self.expense_to.delete()
+        return super(Refund, self).delete(*args, **kwargs)
+        
+    class Meta:
+        verbose_name = _('Refund')
+        verbose_name_plural = _('Refunds')

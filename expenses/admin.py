@@ -6,3 +6,4 @@ class ExpenseAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date'
 
 admin.site.register(Expense,ExpenseAdmin)
+admin.site.register(Refund)

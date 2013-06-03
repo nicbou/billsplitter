@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from expenses.models import *
 from django.core.urlresolvers import reverse_lazy
+from expenses.forms import *
 
 class ExpenseList(ListView):
     model = Expense
@@ -21,4 +22,13 @@ class ExpenseUpdate(UpdateView):
 
 class ExpenseDelete(DeleteView):
     model = Expense
+    success_url = reverse_lazy('expense_list')
+
+class RefundCreate(CreateView):
+    model = Refund
+    form_class = RefundForm
+    success_url = reverse_lazy('expense_list')
+
+class RefundDelete(DeleteView):
+    model = Refund
     success_url = reverse_lazy('expense_list')
