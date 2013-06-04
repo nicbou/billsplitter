@@ -3,8 +3,9 @@ from django.views.generic.list import ListView
 from expenses.models import *
 from django.core.urlresolvers import reverse_lazy
 from expenses.forms import *
+from auth.views import LoginRequiredView
 
-class ExpenseList(ListView):
+class ExpenseList(LoginRequiredView, ListView):
     model = Expense
 
     def get_context_data(self, **kwargs):
@@ -12,23 +13,23 @@ class ExpenseList(ListView):
         context['users'] = User.objects.all()
         return context
 
-class ExpenseCreate(CreateView):
+class ExpenseCreate(LoginRequiredView, CreateView):
     model = Expense
     success_url = reverse_lazy('expense_list')
 
-class ExpenseUpdate(UpdateView):
+class ExpenseUpdate(LoginRequiredView, UpdateView):
     model = Expense
     success_url = reverse_lazy('expense_list')
 
-class ExpenseDelete(DeleteView):
+class ExpenseDelete(LoginRequiredView, DeleteView):
     model = Expense
     success_url = reverse_lazy('expense_list')
 
-class RefundCreate(CreateView):
+class RefundCreate(LoginRequiredView, CreateView):
     model = Refund
     form_class = RefundForm
     success_url = reverse_lazy('expense_list')
 
-class RefundDelete(DeleteView):
+class RefundDelete(LoginRequiredView, DeleteView):
     model = Refund
     success_url = reverse_lazy('expense_list')

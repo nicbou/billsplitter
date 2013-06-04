@@ -95,6 +95,20 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
 
+# Social auth
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.twitter.TwitterBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+FACEBOOK_APP_ID              = '173700872797179'
+FACEBOOK_API_SECRET          = '5c79b1d95ddcfa6bdd72e2c82596eea6'
+TWITTER_CONSUMER_KEY         = 'VEioMf8iFXq4xhQFuQUpzg'
+TWITTER_CONSUMER_SECRET      = 'x8ECGChH7mCtZGtzW4uthpWd3Dl8xnXFlZWxcTgv6Y'
+
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -103,14 +117,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'expenses'
+    'expenses',
+    'auth',
+    'social_auth',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

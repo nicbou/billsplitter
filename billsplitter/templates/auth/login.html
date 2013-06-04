@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block page %}
+	{% if not request.user.is_authenticated %}
+		<h2>{% trans "One-click login/signup" %}</h2>
+		<p>
+			{% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
+		</p>
+		<p>
+			<a class="btn" href="{% url 'social_auth.views.auth' 'facebook' %}"><i class="icon-facebook-sign"></i> {% trans "Use my Facebook account" %}</a>
+		</p>
+		<p>
+			<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}"><i class="icon-twitter-sign"></i> {% trans "Use my Twitter account" %}</a>
+		</p>
+	{% else %}
+		<p>{% trans "You are already logged in." %}</p>
+		<a class="btn btn-primary" href="{% url 'expense_list' %}"><i class="icon-chevron-left"></i> {% trans "Return to my expenses" %}</a>
+	{% endif %}
+
+{% endblock %}
