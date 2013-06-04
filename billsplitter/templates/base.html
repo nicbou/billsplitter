@@ -16,6 +16,24 @@
 	{% block html_head_extras %}{% endblock %}
 </head>
 <body>
+	<div class="navbar navbar-static-top navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="/">{% trans "Bill Splitter" %}</a>
+				<a class="btn pull-right btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><i class="icon-reorder"></i> {% trans "Menu" %}</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li><a href="{% url 'expense_list' %}">{% trans "Expenses" %}</a></li>
+						{% if user.is_authenticated %}
+							<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans "Logout" %}</a></li>
+						{% else %}
+							<li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Login / Sign up" %}</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="wrapper" class="container">
 		<div class="row-fluid">
 			{% block page %}

@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block page %}
-	{% if not request.user.is_authenticated %}
+	{% if not user.is_authenticated %}
 		<h2>{% trans "One-click login/signup" %}</h2>
 		<p>
 			{% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
