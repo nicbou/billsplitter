@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
 	#Apps
 	url(r'', include('social_auth.urls')),
+	url(r'', include('auth.urls')),
 	url(r'^', include('expenses.urls')),
 )
 

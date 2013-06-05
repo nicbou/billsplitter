@@ -23,8 +23,9 @@
 				<a class="btn pull-right btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><i class="icon-reorder"></i> {% trans "Menu" %}</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li><a href="{% url 'expense_list' %}">{% trans "Expenses" %}</a></li>
 						{% if user.is_authenticated %}
+							<li><a href="{% url 'expense_list' %}">{% trans "Expenses" %}</a></li>
+							<li><a href="{% url 'user_update' %}">{% trans "My account" %}</a></li>
 							<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans "Logout" %}</a></li>
 						{% else %}
 							<li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Login / Sign up" %}</a></li>
