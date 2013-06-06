@@ -2,17 +2,17 @@
 {% block page %}
 	{% load i18n %}
 	<h1 class="page-header">
-		{% trans "Expenses" %}
+		{{ group.name }}
 		<div class="pull-right">
-			<a class="btn btn-primary" href="{% url 'expense_create' %}"><i class="icon-white icon-plus"></i> {% trans "Add an expense" %}</a>
-			<a class="btn" href="{% url 'refund_create' %}"><i class="icon-check"></i> {% trans "Refund someone" %}</a>
+			<a class="btn btn-primary" href="{% url 'expense_create' group.pk %}"><i class="icon-white icon-plus"></i> {% trans "Add an expense" %}</a>
+			<a class="btn" href="{% url 'refund_create' group.pk %}"><i class="icon-check"></i> {% trans "Refund someone" %}</a>
 		</div>
 	</h1>
 	<div class="span4 pull-right">
 		<b>{% trans "In this group:" %}</b>
 		<table class="table table-striped table-bordered">
 			<tbody>
-				{% for user in users %}
+				{% for user in group.users.all %}
 					<tr>
 						<td>{{ user.get_full_name }}</td>
 						<td>{{ user.expenses_total|default:0|floatformat:2 }}$</td>

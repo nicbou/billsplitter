@@ -2,6 +2,16 @@ from django import forms
 from expenses.models import *
 from django.utils.translation import ugettext_lazy as _
 
+class GroupForm(forms.ModelForm):
+	class Meta:
+		model = Group
+		fields = ['name']
+
+class ExpenseForm(forms.ModelForm):
+	class Meta:
+		model = Expense
+		exclude = ['group']
+
 class RefundForm(forms.ModelForm):
 	"""
 	Adds improved photo and date widgets to the form, as well as validation

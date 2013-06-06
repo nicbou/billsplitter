@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User as DjangoUser
 from django.db.models import Sum
+from django.core.urlresolvers import reverse
 
 class UserManager(models.Manager):
     """
@@ -28,6 +29,40 @@ class User(DjangoUser):
     class Meta:
         proxy = True
 
+class GroupManager(models.Manager):
+    """
+    Augments the User model in django.contrib.auth with additional functionality:
+    
+    When retrieving  the queryset, the manager automatically: 
+
+    - Applies select_related on the User model so its expenses are selected
+    - Calculates the sum of the user's expenses and puts it in expense_total
+    """
+
+    def get_query_set(self):
+        return super(GroupManager, self).get_query_set().select_related('expense').annotate(expenses_total=Sum('expense__amount'))
+
+class Group(models.Model):
+    """
+    Works in a similar fashion to the default Django groups, but without unique names
+    """
+    name = models.CharField(_('name'), max_length=80, unique=False)
+    date_created = models.DateTimeField(_('Creation date'), auto_now_add=True)
+
+    users = models.ManyToManyField(DjangoUser, related_name='expense_groups')
+
+    objects = GroupManager()
+
+    def __unicode__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('expense_list', kwargs={'group':self.pk})
+
+    class Meta:
+        verbose_name = _('Group')
+        verbose_name_plural = _('Groups')
+
 class Expense(models.Model):
     """
     A basic expense. Each expense is made by one user, and is added to the user's total expenses
@@ -37,6 +72,7 @@ class Expense(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2, verbose_name=_('Amount'))
     date = models.DateField(auto_now_add=True, verbose_name=_('Date'))
     user = models.ForeignKey(User, verbose_name=_('Buyer'), related_name='expenses')
+    group = models.ForeignKey(Group, verbose_name=_('Group'))
     
     def __unicode__(self):
         return self.title

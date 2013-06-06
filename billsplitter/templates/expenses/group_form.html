@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block page %}
+	{% load i18n %}
+	<h1 class="page-header">{% trans "Group" %}</h1>
+	{% include "form.html" with submit_text="Save" %}
+{% endblock page %}

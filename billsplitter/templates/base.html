@@ -24,7 +24,7 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						{% if user.is_authenticated %}
-							<li><a href="{% url 'expense_list' %}">{% trans "Expenses" %}</a></li>
+							<li><a href="{% url 'group_list' %}">{% trans "Groups" %}</a></li>
 							<li><a href="{% url 'user_update' %}">{% trans "My account" %}</a></li>
 							<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans "Logout" %}</a></li>
 						{% else %}
