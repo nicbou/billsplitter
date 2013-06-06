@@ -24,8 +24,20 @@
 				<div class="nav-collapse">
 					<ul class="nav">
 						{% if user.is_authenticated %}
-							<li><a href="{% url 'group_list' %}">{% trans "Groups" %}</a></li>
+							<li class="dropdown">
+								<a href="{% url 'group_list' %}" class="dropdown-toggle hidden-desktop">{% trans "My groups" %}</a>
+								<a href="#" class="dropdown-toggle visible-desktop" data-toggle="dropdown">{% trans "My groups" %} <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									{% for group in user.expense_groups.all|slice:"5" %}
+										<li><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></li>
+									{% endfor %}
+									<li class="divider"></li>
+									<li><a href="{% url 'group_create' %}"><i class="icon-plus"></i> {% trans "Create a new group" %}</a></li>
+									<li><a href="{% url 'group_list' %}"><i class="icon-wrench"></i> {% trans "Manage groups" %}</a></li>
+								</ul>
+							</li>
 							<li><a href="{% url 'user_update' %}">{% trans "My account" %}</a></li>
+							<li class="divider"></li>
 							<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans "Logout" %}</a></li>
 						{% else %}
 							<li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Login / Sign up" %}</a></li>
