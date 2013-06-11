@@ -1,10 +1,12 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView, RedirectView
+from django.views.generic.detail import DetailView
 from expenses.models import *
 from django.core.urlresolvers import reverse_lazy
 from expenses.forms import *
 from auth.views import LoginRequiredViewMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import Http404
 
 class GroupList(LoginRequiredViewMixin, ListView):
@@ -22,7 +24,6 @@ class GroupCreate(LoginRequiredViewMixin, CreateView):
         self.object.users.add(self.request.user)
         return super(GroupCreate, self).form_valid(form) 
 
-
 class GroupUpdate(LoginRequiredViewMixin, UpdateView):
     model = Group
     form_class = GroupForm
@@ -30,6 +31,45 @@ class GroupUpdate(LoginRequiredViewMixin, UpdateView):
 class GroupDelete(LoginRequiredViewMixin, DeleteView):
     model = Group
     success_url = reverse_lazy('group_list')
+
+class InviteCreate(LoginRequiredViewMixin, DetailView):
+    """
+    Shows the URL to invite people to join a group
+    """
+    template_name = "expenses/invite_create.html"
+    model = Group
+
+    def get_queryset(self):
+        return self.request.user.expense_groups.all()
+
+class InviteDetail(LoginRequiredViewMixin, DetailView):
+    """
+    Shows an invitation, provided that you have a valid invite code
+    """
+    template_name = "expenses/invite_detail.html"
+    model = Group
+
+    def get_object(self,queryset=None):
+        group = super(InviteDetail, self).get_object()
+        if self.kwargs['hash'] == group.invite_code:
+            return group
+        else:
+            raise Http404
+
+class InviteAccept(LoginRequiredViewMixin, RedirectView):
+    """
+    Accepts an invitation confirmation via POST, verifies the hash first
+    """
+    template_name = "expenses/invite_accept.html"
+    http_method_names = ['post',]
+
+    def post(self, request, *args, **kwargs):
+        group = Group.objects.get(pk=self.kwargs['pk'])
+        if self.kwargs['hash'] == group.invite_code:
+            group.users.add(request.user)
+            return redirect(group.get_absolute_url())
+        else:
+            raise Http404
 
 
 class ExpenseList(LoginRequiredViewMixin, ListView):

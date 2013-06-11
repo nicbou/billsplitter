@@ -6,6 +6,7 @@
 		<div class="pull-right">
 			<a class="btn btn-primary" href="{% url 'expense_create' group.pk %}"><i class="icon-white icon-plus"></i> {% trans "Add an expense" %}</a>
 			<a class="btn" href="{% url 'refund_create' group.pk %}"><i class="icon-check"></i> {% trans "Refund someone" %}</a>
+			<a class="btn" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
 		</div>
 	</h1>
 	<div class="span4 pull-right">

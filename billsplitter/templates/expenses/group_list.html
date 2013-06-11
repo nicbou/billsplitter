@@ -14,6 +14,7 @@
 					<td><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></td>
 					<td align="right">
 						<div class="pull-right">
+							<a class="btn btn-primary btn-small" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
 							<a class="btn btn-small" href="{% url 'group_update' group.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit group" %}</span></a>
 							<a class="btn btn-small" href="{% url 'group_delete' group.pk %}"><i class="icon-remove"></i></a>
 						</div>

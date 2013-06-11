@@ -3,6 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User as DjangoUser
 from django.db.models import Sum
 from django.core.urlresolvers import reverse
+import hashlib
+from time import mktime
 
 class UserManager(models.Manager):
     """
@@ -55,6 +57,16 @@ class Group(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @property
+    def invite_code(self):
+        timestamp = int(mktime(self.date_created.timetuple())*1000)
+        digest = hashlib.sha1( str(timestamp) + str(self.pk) ).hexdigest()
+        return str(digest)[2:12]
+
+    @property
+    def invite_url(self):
+        return reverse('invite_detail', kwargs={'pk':self.pk, 'hash':self.invite_code})
 
     def get_absolute_url(self):
         return reverse('expense_list', kwargs={'group':self.pk})
