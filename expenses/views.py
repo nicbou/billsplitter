@@ -154,7 +154,7 @@ class RefundCreate(RefundViewMixin, LoginRequiredViewMixin, CreateView):
         return initial
 
     def get_form_kwargs(self,**kwargs):
-        kwargs = super(ExpenseViewMixin, self).get_form_kwargs(**kwargs)
+        kwargs = super(RefundCreate, self).get_form_kwargs(**kwargs)
         kwargs['users'] = self.request.user.expense_groups.get(pk=self.kwargs['group']).users.all()
         return kwargs
 

@@ -1,6 +1,7 @@
 from django import forms
 from expenses.models import *
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ValidationError
 
 class GroupForm(forms.ModelForm):
 	class Meta:
@@ -39,7 +40,7 @@ class RefundForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		users = kwargs.pop('users', None)
-		super(ExpenseForm, self).__init__(*args, **kwargs)
+		super(RefundForm, self).__init__(*args, **kwargs)
 
 		if users:
 			self.fields['from_user'].queryset = users
