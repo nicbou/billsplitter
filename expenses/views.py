@@ -83,7 +83,12 @@ class ExpenseViewMixin(object):
             return self.request.user.expense_groups.get(pk=self.kwargs['group']).expense_set.all()
         except Group.DoesNotExist:
             raise Http404
-            
+
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super(ExpenseViewMixin, self).get_form_kwargs(**kwargs)
+        kwargs['users'] = self.request.user.expense_groups.get(pk=self.kwargs['group']).users.all()
+        return kwargs
+
     def get_success_url(self):
         return reverse_lazy('expense_list',kwargs={'group':self.kwargs['group']})
 
@@ -147,6 +152,11 @@ class RefundCreate(RefundViewMixin, LoginRequiredViewMixin, CreateView):
         initial = initial.copy() # Copy the dictionary so we don't accidentally change a mutable dict
         initial['from_user'] = self.request.user
         return initial
+
+    def get_form_kwargs(self,**kwargs):
+        kwargs = super(ExpenseViewMixin, self).get_form_kwargs(**kwargs)
+        kwargs['users'] = self.request.user.expense_groups.get(pk=self.kwargs['group']).users.all()
+        return kwargs
 
     def form_valid(self, form):
         try:

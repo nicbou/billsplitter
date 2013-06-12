@@ -51,7 +51,7 @@ class Group(models.Model):
     name = models.CharField(_('Group name'), max_length=80, unique=False)
     date_created = models.DateTimeField(_('Creation date'), auto_now_add=True)
 
-    users = models.ManyToManyField(DjangoUser, related_name='expense_groups')
+    users = models.ManyToManyField(DjangoUser, related_name='expense_groups') #We must use the DjangoUser becaus proxies cannot see expense_groups
 
     objects = GroupManager()
 

@@ -7,18 +7,43 @@ class GroupForm(forms.ModelForm):
 		model = Group
 		fields = ['name']
 
+class UserModelChoiceField(forms.ModelChoiceField):
+	# Normally, we would simply use the proxy model from expenses.models
+	# See expenses.models.Group for more details
+	def label_from_instance(self, user):
+		return user.get_full_name()
+
 class ExpenseForm(forms.ModelForm):
+	user = UserModelChoiceField(label=_("From"),queryset=User.objects.all(), empty_label=_("Select a person"))
+
+	def __init__(self, *args, **kwargs):
+		users = kwargs.pop('users', None)
+		super(ExpenseForm, self).__init__(*args, **kwargs)
+
+		if users:
+			self.fields['user'].queryset = users
+
 	class Meta:
 		model = Expense
 		exclude = ['group']
+
 
 class RefundForm(forms.ModelForm):
 	"""
 	Adds improved photo and date widgets to the form, as well as validation
 	"""
-	from_user = forms.ModelChoiceField(label=_("From"),queryset=User.objects.all(), empty_label=_("Select a person"))
-	to_user = forms.ModelChoiceField(label=_("To"),queryset=User.objects.all(), empty_label=_("Select a person"))
+	from_user = UserModelChoiceField(label=_("From"),queryset=User.objects.all(), empty_label=_("Select a person"))
+	to_user = UserModelChoiceField(label=_("To"),queryset=User.objects.all(), empty_label=_("Select a person"))
 	amount = forms.IntegerField(min_value=0)
+
+
+	def __init__(self, *args, **kwargs):
+		users = kwargs.pop('users', None)
+		super(ExpenseForm, self).__init__(*args, **kwargs)
+
+		if users:
+			self.fields['from_user'].queryset = users
+			self.fields['to_user'].queryset = users
 
 	def clean(self):
 		cleaned_data = super(RefundForm, self).clean()
