@@ -26,21 +26,6 @@ class RefundForm(forms.ModelForm):
 			raise ValidationError(_("The refund must be made between two different people"))
 		return cleaned_data
 
-	def save(self, force_insert=False, force_update=False, commit=True):
-		refund = super(RefundForm, self).save(commit=False)
-		from_amount = self.cleaned_data.get("amount")
-		to_amount = -from_amount
-		if commit:
-			expense_from = Expense(user=self.cleaned_data.get("from_user"), amount=from_amount)
-			expense_from.save()
-			expense_to = Expense(user=self.cleaned_data.get("to_user"), amount=to_amount)
-			expense_to.save()
-
-			refund.expense_from = expense_from
-			refund.expense_to = expense_to
-			refund.save()
-		return refund
-
 	class Meta:
 		model = Refund
 		fields = ['from_user','to_user','amount','description']

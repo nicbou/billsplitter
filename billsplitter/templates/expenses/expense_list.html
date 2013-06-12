@@ -9,63 +9,70 @@
 			<a class="btn" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
 		</div>
 	</h1>
-	<div class="span4 pull-right">
-		<b>{% trans "In this group:" %}</b>
-		<table class="table table-striped table-bordered">
+	<div class="row">
+		<div class="span4 pull-right">
+			<b>{% trans "In this group:" %}</b>
+			<table class="table table-striped table-bordered">
+				<tbody>
+					{% for user in group.users.all %}
+						<tr>
+							<td>{{ user.get_full_name }}</td>
+							<td>{{ user.expenses_total|default:0|floatformat:2 }}$</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<hr class="clearfix">
+	{% if expense_list %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>{% trans "Title" %}</th>
+					<th class="hidden-phone">{% trans "Description" %}</th>
+					<th>{% trans "Buyer" %}</th>
+					<th>{% trans "Date" %}</th>
+					<th>{% trans "Amount" %}</th>
+					<th></th>
+				</tr>
+			</thead>
 			<tbody>
-				{% for user in group.users.all %}
-					<tr>
-						<td>{{ user.get_full_name }}</td>
-						<td>{{ user.expenses_total|default:0|floatformat:2 }}$</td>
-					</tr>
+				{% for expense in expense_list %}
+					{% if expense.refund_from %}
+						<tr class="refund info">
+							<td>{{ expense.refund_from }}</td>
+							<td class="hidden-phone">{{ expense.description }}</td>
+							<td>{{ expense.user }}</td>
+							<td>{{ expense.date|date:"M d" }}</td>
+							<td>{{ expense.amount|floatformat:2 }}$</td>
+							<td align="right">
+								<div class="pull-right">
+									<a class="btn btn-small" href="{% url 'refund_delete' group.pk expense.refund_from.pk %}"><i class="icon-remove"></i></a>
+								</div>
+							</td>
+						</tr>
+					{% elif expense.refund_to %}
+						{# Nothing, as expected #}
+					{% else %}
+						<tr>
+							<td>{{ expense.title }}</td>
+							<td class="hidden-phone">{{ expense.description }}</td>
+							<td>{{ expense.user }}</td>
+							<td>{{ expense.date|date:"M d" }}</td>
+							<td>{{ expense.amount|floatformat:2 }}$</td>
+							<td align="right">
+								<div class="pull-right">
+									<a class="btn btn-small" href="{% url 'expense_update' group.pk expense.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit expense" %}</span></a>
+									<a class="btn btn-small" href="{% url 'expense_delete' group.pk expense.pk %}"><i class="icon-remove"></i></a>
+								</div>
+							</td>
+						</tr>
+					{% endif %}
 				{% endfor %}
 			</tbody>
 		</table>
-	</div>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>{% trans "Title" %}</th>
-				<th class="hidden-phone">{% trans "Description" %}</th>
-				<th>{% trans "Buyer" %}</th>
-				<th>{% trans "Date" %}</th>
-				<th>{% trans "Amount" %}</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for expense in expense_list %}
-				{% if expense.refund_from %}
-					<tr class="refund info">
-						<td>{{ expense.refund_from }}</td>
-						<td class="hidden-phone">{{ expense.description }}</td>
-						<td>{{ expense.user }}</td>
-						<td>{{ expense.date|date:"M d" }}</td>
-						<td>{{ expense.amount|floatformat:2 }}$</td>
-						<td align="right">
-							<div class="pull-right">
-								<a class="btn btn-small" href="{% url 'refund_delete' expense.refund_from.pk %}"><i class="icon-remove"></i></a>
-							</div>
-						</td>
-					</tr>
-				{% elif expense.refund_to %}
-					{# Nothing, as expected #}
-				{% else %}
-					<tr>
-						<td>{{ expense.title }}</td>
-						<td class="hidden-phone">{{ expense.description }}</td>
-						<td>{{ expense.user }}</td>
-						<td>{{ expense.date|date:"M d" }}</td>
-						<td>{{ expense.amount|floatformat:2 }}$</td>
-						<td align="right">
-							<div class="pull-right">
-								<a class="btn btn-small" href="{% url 'expense_update' expense.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit expense" %}</span></a>
-								<a class="btn btn-small" href="{% url 'expense_delete' expense.pk %}"><i class="icon-remove"></i></a>
-							</div>
-						</td>
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</tbody>
-	</table>
+	{% else %}
+		<p class="muted">{% trans "There are no expenses in this group." %} <a href="{% url 'expense_create' group.pk %}">{% trans "Add an expense" %}</a></p>
+	{% endif %}
 {% endblock page %}

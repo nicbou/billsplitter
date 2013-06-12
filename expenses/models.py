@@ -46,9 +46,9 @@ class GroupManager(models.Manager):
 
 class Group(models.Model):
     """
-    Works in a similar fashion to the default Django groups, but without unique names
+    Works in a similar fashion to the default Django groups, but without unique names, and with a creation date
     """
-    name = models.CharField(_('name'), max_length=80, unique=False)
+    name = models.CharField(_('Group name'), max_length=80, unique=False)
     date_created = models.DateTimeField(_('Creation date'), auto_now_add=True)
 
     users = models.ManyToManyField(DjangoUser, related_name='expense_groups')

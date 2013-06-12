@@ -24,6 +24,6 @@ Why it's awesome
 What's missing
 --------------
 
-I consider the app feature-complete for my own needs, but I plan to add social authentification and iOS icons among other details.
+I consider the app feature-complete for my own needs, but I plan progressively add new features, including iOS icons.
 
-Bill Splitter notably fails to account for people who join the group at a later time. I do not plan to add this feature.
+Bill Splitter notably fails to account for people who join the group at a later time. I do not plan to add this feature yet.

@@ -31,7 +31,9 @@
 									{% for group in user.expense_groups.all|slice:"5" %}
 										<li><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></li>
 									{% endfor %}
-									<li class="divider"></li>
+									{% if user.expense_groups.all|slice:"5" %}
+										<li class="divider"></li>
+									{% endif %}
 									<li><a href="{% url 'group_create' %}"><i class="icon-plus"></i> {% trans "Create a new group" %}</a></li>
 									<li><a href="{% url 'group_list' %}"><i class="icon-wrench"></i> {% trans "Manage groups" %}</a></li>
 								</ul>

@@ -7,20 +7,24 @@
 			<a class="btn btn-primary" href="{% url 'group_create' %}"><i class="icon-white icon-plus"></i> {% trans "Create a group" %}</a>
 		</div>
 	</h1>
-	<table class="table table-striped">
-		<tbody>
-			{% for group in group_list %}
-				<tr>
-					<td><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></td>
-					<td align="right">
-						<div class="pull-right">
-							<a class="btn btn-primary btn-small" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
-							<a class="btn btn-small" href="{% url 'group_update' group.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit group" %}</span></a>
-							<a class="btn btn-small" href="{% url 'group_delete' group.pk %}"><i class="icon-remove"></i></a>
-						</div>
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+	{% if group_list %}
+		<table class="table table-striped">
+			<tbody>
+				{% for group in group_list %}
+					<tr>
+						<td><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></td>
+						<td align="right">
+							<div class="pull-right">
+								<a class="btn btn-primary btn-small" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
+								<a class="btn btn-small" href="{% url 'group_update' group.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit group" %}</span></a>
+								<a class="btn btn-small" href="{% url 'group_delete' group.pk %}"><i class="icon-remove"></i></a>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p class="muted">{% trans "You are not part of any group yet." %} <a href="{% url 'group_create' %}">{% trans "Create your own!" %}</a></p>
+	{% endif %}
 {% endblock page %}
