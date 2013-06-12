@@ -3,7 +3,7 @@
 
 {% block page %}
 	{% if not user.is_authenticated %}
-		<h2>{% trans "One-click login/signup" %}</h2>
+		<h1 class="page-header">{% trans "One-click login/signup" %}</h1>
 		<p>
 			{% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
 		</p>
@@ -13,6 +13,9 @@
 		<p>
 			<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"><i class="icon-twitter-sign"></i> {% trans "Use my Twitter account" %}</a>
 		</p>
+		<small class="muted">
+			{% trans "We will never access your profile or post on your behalf. That would be creepy." %}
+		</small>
 	{% else %}
 		<p>{% trans "You are already logged in." %}</p>
 		<a class="btn btn-primary" href="{% url 'expense_list' %}"><i class="icon-chevron-left"></i> {% trans "Return to my expenses" %}</a>
