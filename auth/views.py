@@ -15,7 +15,7 @@ class LoginRequiredViewMixin(object):
 
 class UserUpdate(LoginRequiredViewMixin, UpdateView):
 	model = User
-	success_url = reverse_lazy('expense_list')
+	success_url = reverse_lazy('group_list')
 	form_class = UserForm
 
 	def get_object(self):
