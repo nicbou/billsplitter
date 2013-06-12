@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% block page %}
-	<h1 class="page-header">Confirmation required</h1>
-	<p>Are you sure you want to delete {{ item_name|default:"this item" }}? This action is irreversible.</p>
+	{% load i18n %}
+	<h1 class="page-header">{% trans "Confirmation required" %}</h1>
+	<p>
+		{% blocktrans with item_name=item_name|default:"this item" %}
+			Are you sure you want to delete {{ item_name|default:"this item" }}? This action is irreversible.
+		{% endblocktrans %}
+	</p>
 	<form action="" method="post">
 		{% csrf_token %}
 		<div class="form-actions">
-			<input class="btn btn-large btn-danger" type="submit" value="Delete {{ item_name|default:"this item" }}">
+			<input class="btn btn-large btn-danger" type="submit" value="{% blocktrans with item_name=item_name|default:"this item" %}Delete {{ item_name }}{% endblocktrans %}">
 		</div>
 	</form>
 {% endblock page %}

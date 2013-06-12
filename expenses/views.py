@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from expenses.forms import *
 from auth.views import LoginRequiredViewMixin
 from django.shortcuts import get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 
 class GroupList(LoginRequiredViewMixin, ListView):
     model = Group
@@ -31,6 +31,20 @@ class GroupUpdate(LoginRequiredViewMixin, UpdateView):
 class GroupDelete(LoginRequiredViewMixin, DeleteView):
     model = Group
     success_url = reverse_lazy('group_list')
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Only delete the group if it's the last member. Otherwise, leave it
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        print(self.object.users.count())
+        if self.object.users.count()>1:
+            self.object.users.remove(request.user)
+        else:
+            self.object.delete()
+        return HttpResponseRedirect(success_url)
+
 
 class InviteCreate(LoginRequiredViewMixin, DetailView):
     """
