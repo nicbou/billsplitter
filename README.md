@@ -1,6 +1,8 @@
 Bill Splitter
 =============
 
+Demo: http://home.nicolasbouliane.com/billsplitter
+
 A simple shared expense manager for Django. Useful for couples and roommates looking to fairly split their expenses.
 
 The project is an early fork of [Groupshex](https://github.com/lracicot/groupshex). It has a simpler model and notably omits to account for people who join the group later.
