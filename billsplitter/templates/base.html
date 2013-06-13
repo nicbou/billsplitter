@@ -50,6 +50,15 @@
 		</div>
 	</div>
 	<div id="wrapper" class="container">
+		{% block messages %}
+			{% if messages %}
+				{% for message in messages %}
+					<div class="alert {{ message.tags }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endif %}
+		{% endblock messages %}	
 		<div class="row-fluid">
 			{% block page %}
 				<div class="span4">

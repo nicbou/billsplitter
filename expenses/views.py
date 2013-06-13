@@ -8,6 +8,8 @@ from expenses.forms import *
 from auth.views import LoginRequiredViewMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.http import Http404, HttpResponseRedirect
+from django.contrib import messages
+from django.utils.translation import ugettext_lazy as _
 
 class GroupList(LoginRequiredViewMixin, ListView):
     model = Group
@@ -81,6 +83,7 @@ class InviteAccept(LoginRequiredViewMixin, RedirectView):
         group = Group.objects.get(pk=self.kwargs['pk'])
         if self.kwargs['hash'] == group.invite_code:
             group.users.add(request.user)
+            messages.add_message(request, messages.SUCCESS, _('Invite accepted! You may now share expenses with the group.'))
             return redirect(group.get_absolute_url())
         else:
             raise Http404

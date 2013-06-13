@@ -5,11 +5,12 @@ from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
 @receiver(post_save, sender=User)
-def create_initial_group(sender, instance, signal, *args, **kwargs):
+def create_initial_group(sender, instance, signal, created, **kwargs):
     """
     When a user is created, add a default group
     """
-    group = Group(name=_('Personal expenses'))
-    group.save()
-    group.users.add(instance)
-    group.save()
+    if created == True:
+        group = Group(name=_('Personal expenses'))
+        group.save()
+        group.users.add(instance)
+        group.save()
