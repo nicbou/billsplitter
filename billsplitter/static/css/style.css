@@ -1,4 +1,5 @@
 .btn{font-weight:normal!important;}
+.hero-unit{background:url('../img/background.jpg');}
 
 @media (max-width: 480px) {
 	h1 .pull-right{margin:10px 0;}

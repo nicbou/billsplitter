@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% block page %}
+	<div class="hero-unit">
+		<h1>{% trans "Bill Splitter" %}</h1>
+		<p>
+			Split up expenses, not friendships.
+		</p>
+	</div>
+	<div class="row thumbnails">
+		<div class="span4">
+			<h2 class="page-header">1. Create a new group</h2>
+			<p>Creating a groupe takes five short seconds. Give it a name and you are good to go.</p>
+		</div>
+		<div class="span4">
+			<h2 class="page-header">2. Invite your roommates</h2>
+			<p>Invite your friends to join you Bill Splitter group, and get them to add their shared expenses.</p>
+		</div>
+		<div class="span4">
+			<h2 class="page-header">3. Don't kill each other</h2>
+			<p>You know who bought what and how much everyone spent. No need to keep receipts or guesstimate IOUs.</p>
+		</div>
+	</div>
+	<hr>
+	{% if not user.is_authenticated %}
+		<div style="text-align:center">
+			<h2>Get started</h2>
+			<p>
+				{% trans "Signup is instant. Just pick which account you'll use with Bill Splitter." %}
+			</p>
+			<p>
+				<a class="btn" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
+				<span class="muted"> or </span>
+				<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
+			</p>
+		</div>
+	{% else %}
+		<p>{% trans "You are already logged in." %}</p>
+		<a class="btn btn-primary" href="{% url 'group_list' %}">{% trans "Go to my expenses" %} <i class="icon-chevron-right icon-white"></i></a>
+	{% endif %}
+{% endblock page %}

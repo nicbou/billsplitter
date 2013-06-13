@@ -1,5 +1,6 @@
 # Django settings for billsplitter project.
 import os
+from django.core.urlresolvers import reverse_lazy
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -118,7 +119,7 @@ TWITTER_CONSUMER_KEY         = 'VEioMf8iFXq4xhQFuQUpzg'
 TWITTER_CONSUMER_SECRET      = 'x8ECGChH7mCtZGtzW4uthpWd3Dl8xnXFlZWxcTgv6Y'
 
 LOGIN_URL          = '/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = reverse_lazy('group_list')
 
 INSTALLED_APPS = (
     'django.contrib.auth',

@@ -83,7 +83,7 @@ class Expense(models.Model):
     description = models.TextField(verbose_name=_('Description'), blank=True)
     amount = models.DecimalField(max_digits=7, decimal_places=2, verbose_name=_('Amount'))
     date = models.DateField(auto_now_add=True, verbose_name=_('Date'))
-    user = models.ForeignKey(User, verbose_name=_('Buyer'), related_name='expenses')
+    user = models.ForeignKey(DjangoUser, verbose_name=_('Buyer'), related_name='expenses')
     group = models.ForeignKey(Group, verbose_name=_('Group'))
     
     def __unicode__(self):

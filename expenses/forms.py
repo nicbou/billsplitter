@@ -1,5 +1,6 @@
 from django import forms
-from expenses.models import *
+from expenses.models import Group, Expense, Refund
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
 

@@ -8,10 +8,9 @@
 			{% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
 		</p>
 		<p>
-			<a class="btn" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"><i class="icon-facebook-sign"></i> {% trans "Use my Facebook account" %}</a>
-		</p>
-		<p>
-			<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}"><i class="icon-twitter-sign"></i> {% trans "Use my Twitter account" %}</a>
+			<a class="btn" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
+			<span class="muted"> or </span>
+			<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
 		</p>
 		<small class="muted">
 			{% trans "We will never access your profile or post on your behalf. That would be creepy." %}

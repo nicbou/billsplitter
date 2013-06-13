@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
 	<meta name="description" content="">
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.min.css">
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="{{ STATIC_URL }}js/jquery.numeric.js"></script>
@@ -20,7 +20,7 @@
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="brand" href="/">{% trans "Bill Splitter" %}</a>
-				<a class="btn pull-right btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><i class="icon-reorder"></i> {% trans "Menu" %}</a>
+				<a class="btn pull-right btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><i class="icon-white icon-align-justify"></i> {% trans "Menu" %}</a>
 				<div class="nav-collapse">
 					<ul class="nav">
 						{% if user.is_authenticated %}
@@ -59,8 +59,8 @@
 				{% endfor %}
 			{% endif %}
 		{% endblock messages %}	
-		<div class="row-fluid">
-			{% block page %}
+		{% block page %}
+			<div class="row-fluid">
 				<div class="span4">
 					{% block sidebar %}
 					
@@ -71,8 +71,8 @@
 						
 					{% endblock content %}
 				</div>
-			{% endblock page %}
-		</div>
+			</div>
+		{% endblock page %}
 	</div>
 </body>
 </html>

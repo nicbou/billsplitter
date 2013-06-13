@@ -5,8 +5,6 @@ from django.views.generic import RedirectView
 from expenses.views import *
 
 urlpatterns = patterns('',
-	url(r'^$', RedirectView.as_view(url=reverse_lazy('group_list')), name='index'),
-
 	url(r'^groups/$', GroupList.as_view(), name='group_list'),
 	url(r'^groups/add/$', GroupCreate.as_view(), name='group_create'),
 	url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdate.as_view(), name='group_update'),
