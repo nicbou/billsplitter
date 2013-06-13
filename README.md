@@ -1,7 +1,7 @@
 Bill Splitter
 =============
 
-Demo: http://home.nicolasbouliane.com/billsplitter
+Demo: http://home.nicolasbouliane.com:82
 
 A simple shared expense manager for Django. Useful for couples and roommates looking to fairly split their expenses.
 
