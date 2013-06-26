@@ -11,6 +11,15 @@ from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
+class Home(TemplateView):
+    """
+    Redirects authenticated users to the group list
+    """
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            return redirect('group_list')
+        return super(Home, self).dispatch(request, *args, **kwargs)
+
 class GroupList(LoginRequiredViewMixin, ListView):
     model = Group
 
