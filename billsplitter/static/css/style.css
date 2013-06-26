@@ -7,3 +7,8 @@
 	h1 .pull-right{margin:10px 0;}
 	.btn{white-space: nowrap}
 } 
+
+@media(max-width:979px){
+	/* The current template doesn't appropriately color the menu links on mobile devices */
+	.navbar-inverse .nav-collapse .nav>li>a, .navbar-inverse .nav-collapse .dropdown-menu a {color:#fff;font-weight:normal}
+}
