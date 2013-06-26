@@ -28,16 +28,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for user in group.users.all %}
+					{% for line in group.users_with_totals %}
 						<tr>
 							<td>
-								{% if user.pk = request.user.pk %}
+								{% if line.user.pk = request.user.pk %}
 									{% trans "You" %}
 								{% else %}
-									{{ user.get_full_name }}
+									{{ line.user.get_full_name }}
 								{% endif %}
 							</td>
-							<td>{{ user.expenses_total|default:0|floatformat:2 }}$</td>
+							<td>{{ line.total|default:0|floatformat:2 }}$</td>
 						</tr>
 					{% endfor %}
 				</tbody>
@@ -65,7 +65,7 @@
 						<tr class="refund info">
 							<td>{{ expense.refund_from }}</td>
 							<td class="hidden-phone">{{ expense.description }}</td>
-							<td>{{ expense.user }}</td>
+							<td>{{ expense.user.get_full_name }}</td>
 							<td>{{ expense.date|date:"M d" }}</td>
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td align="right">
@@ -80,7 +80,7 @@
 						<tr>
 							<td>{{ expense.title }}</td>
 							<td class="hidden-phone">{{ expense.description }}</td>
-							<td>{{ expense.user }}</td>
+							<td>{{ expense.user.get_full_name }}</td>
 							<td>{{ expense.date|date:"M d" }}</td>
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td align="right">

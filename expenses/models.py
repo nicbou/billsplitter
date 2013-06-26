@@ -1,35 +1,11 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User as DjangoUser
-from django.db.models import Sum
+from django.db.models import Sum, Count
 from django.core.urlresolvers import reverse
 import hashlib
 from time import mktime
 
-class UserManager(models.Manager):
-    """
-    Augments the User model in django.contrib.auth with additional functionality:
-    
-    When retrieving  the queryset, the manager automatically: 
-
-    - Applies select_related on the User model so its expenses are selected
-    - Calculates the sum of the user's expenses and puts it in expense_total
-    """
-
-    def get_query_set(self):
-        return super(UserManager, self).get_query_set().select_related('expenses').annotate(expenses_total=Sum('expenses__amount'))
-
-class User(DjangoUser):
-    """
-    Extends the default User model to add a custom manager with augmented functionality
-    """
-    objects = UserManager()
-
-    def __unicode__(self):
-        return self.get_full_name()
-
-    class Meta:
-        proxy = True
 
 class GroupManager(models.Manager):
     """
@@ -42,7 +18,7 @@ class GroupManager(models.Manager):
     """
 
     def get_query_set(self):
-        return super(GroupManager, self).get_query_set().select_related('expense').annotate(expenses_total=Sum('expense__amount'))
+        return super(GroupManager, self).get_query_set().select_related('expenses')
 
 class Group(models.Model):
     """
@@ -67,6 +43,21 @@ class Group(models.Model):
     @property
     def invite_url(self):
         return reverse('invite_detail', kwargs={'pk':self.pk, 'hash':self.invite_code})
+
+    @property
+    def users_with_totals(self):
+        user_list = []
+        users = self.users.prefetch_related('expenses').all()
+        for user in self.users.all():
+            expenses = user.expenses.all().filter(group=self.pk).aggregate(total=Sum('amount'))
+            user_dict = {
+                'user': user,
+                'total': expenses['total']
+            }
+            user_list.append(user_dict)
+        from django.db import connection
+        print(connection.queries)
+        return user_list
 
     def get_absolute_url(self):
         return reverse('expense_list', kwargs={'group':self.pk})
@@ -103,7 +94,7 @@ class Refund(models.Model):
     expense_to = models.OneToOneField(Expense, verbose_name=_('To'), related_name='refund_to')
 
     description = models.TextField(verbose_name=_('Notes'), blank=True)
-    
+
     def __unicode__(self):
         return _("Refund to %s") % self.expense_to.user
 
