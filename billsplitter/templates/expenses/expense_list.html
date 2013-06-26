@@ -41,7 +41,7 @@
 							</td>
 							<td class="hidden-phone">{{ line.total|default:0|floatformat:2 }}$</td>
 							<td>
-								{% with line.relative_total|default:0|abs as relative_total %}
+								{% with line.relative_total|default:0 as relative_total %}
 									{% if relative_total < 0 %}
 										{% blocktrans with amount=relative_total|floatformat:2 %}
 											{{ amount }}$ behind
