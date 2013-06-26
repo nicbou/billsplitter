@@ -13,7 +13,7 @@
 			<a class="btn" href="{% url 'refund_create' group.pk %}">
 				<i class="icon-check"></i> <span class="visible-desktop">
 				{% trans "Refund someone" %}</span>
-				<span class="hidden-desktop">{% trans "Refund" %}</span>
+				<span class="hidden-desktop">{% trans "Settle" %}</span>
 			</a>
 			<a class="btn" href="{% url 'invite_create' group.pk %}"><i class="icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
 		</div>
@@ -105,7 +105,7 @@
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td align="right">
 								<div class="pull-right">
-									<a class="btn btn-small" href="{% url 'expense_update' group.pk expense.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit expense" %}</span></a>
+									<a class="btn btn-small" href="{% url 'expense_update' group.pk expense.pk %}"><i class="icon-pencil"></i><span class="visible-desktop"> {% trans "Edit expense" %}</span></a>
 									<a class="btn btn-small" href="{% url 'expense_delete' group.pk expense.pk %}"><i class="icon-remove"></i></a>
 								</div>
 							</td>
