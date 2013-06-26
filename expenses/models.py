@@ -106,7 +106,7 @@ class Refund(models.Model):
     description = models.TextField(verbose_name=_('Notes'), blank=True)
 
     def __unicode__(self):
-        return _("Refund to %s") % self.expense_to.user
+        return _("Refund to %s") % self.expense_to.user.get_full_name()
 
     def delete(self, *args, **kwargs):
         self.expense_from.delete()
