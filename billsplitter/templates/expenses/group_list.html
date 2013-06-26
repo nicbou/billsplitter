@@ -2,18 +2,22 @@
 {% block page %}
 	{% load i18n %}
 	<h1 class="page-header">
-		{% trans "Groups" %}
+		{% trans "Your groups" %}
 		<div class="pull-right">
 			<a class="btn btn-primary" href="{% url 'group_create' %}"><i class="icon-white icon-plus"></i> {% trans "Create a group" %}</a>
 		</div>
 	</h1>
+	<p>{% trans "Groups allow you to separate different kinds of expenses with different people." %}</p>
 	{% if group_list %}
 		<table class="table table-striped">
 			<tbody>
 				{% for group in group_list %}
 					<tr>
 						<td><a href="{% url 'expense_list' group.pk %}">{{ group.name }}</a></td>
-						<td align="right">
+						<td class="hidden-phone">
+							<i class="icon-user"></i> {{ group.user_count }} {{ group.user_count|pluralize:"user,users" }}
+						</td>
+						<td>
 							<div class="pull-right">
 								<a class="btn btn-primary btn-small" href="{% url 'invite_create' group.pk %}"><i class="icon-white icon-envelope"></i><span class="hidden-phone"> {% trans "Invite people" %}</span></a>
 								<a class="btn btn-small" href="{% url 'group_update' group.pk %}"><i class="icon-pencil"></i><span class="hidden-phone"> {% trans "Edit group" %}</span></a>

@@ -11,7 +11,7 @@
 	<div class="row thumbnails">
 		<div class="span4">
 			<h2 class="page-header">1. Create a new group</h2>
-			<p>Creating a groupe takes five short seconds. Give it a name and you are good to go.</p>
+			<p>Creating a group takes five seconds. Give it a name and you are good to go. You can create as many as you wish.</p>
 		</div>
 		<div class="span4">
 			<h2 class="page-header">2. Invite your roommates</h2>
@@ -34,6 +34,7 @@
 				<span class="muted"> or </span>
 				<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
 			</p>
+			<p class="muted"><small>We do not have access to your profile information, your wall or your tweets.</small></p>
 		</div>
 	{% else %}
 		<p>{% trans "You are already logged in." %}</p>

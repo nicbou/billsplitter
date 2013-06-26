@@ -18,7 +18,7 @@ class GroupManager(models.Manager):
     """
 
     def get_query_set(self):
-        return super(GroupManager, self).get_query_set().select_related('expenses')
+        return super(GroupManager, self).get_query_set().select_related('expenses','users').annotate(user_count=Count('users'))
 
 class Group(models.Model):
     """
