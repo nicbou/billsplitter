@@ -44,19 +44,29 @@ class Group(models.Model):
     def invite_url(self):
         return reverse('invite_detail', kwargs={'pk':self.pk, 'hash':self.invite_code})
 
-    @property
-    def users_with_totals(self):
+    def users_with_totals(self, current_user=None):
         user_list = []
         users = self.users.prefetch_related('expenses').all()
+        current_user_total = None
         for user in self.users.all():
             expenses = user.expenses.all().filter(group=self.pk).aggregate(total=Sum('amount'))
             user_dict = {
                 'user': user,
                 'total': expenses['total']
             }
+
+            #If we loop over the current user, add his total
+            if current_user and current_user.pk == user.pk:
+                current_user_total = expenses['total']
+
             user_list.append(user_dict)
-        from django.db import connection
-        print(connection.queries)
+
+
+        #Set the relative totals
+        if current_user_total:
+            for user_dict in user_list:
+                user_dict['relative_total'] = user_dict['total'] - current_user_total
+
         return user_list
 
     def get_absolute_url(self):

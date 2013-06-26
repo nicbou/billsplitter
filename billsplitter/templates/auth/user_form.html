@@ -2,5 +2,6 @@
 {% block page %}
 	{% load i18n %}
 	<h1 class="page-header">{% trans "Your account" %}</h1>
+	<p>{% trans "This information is only used to address you on this website. You do not need to specify an email address." %}</p>
 	{% include "form.html" with submit_text="Save" %}
 {% endblock page %}

@@ -123,6 +123,7 @@ class ExpenseList(ExpenseViewMixin, LoginRequiredViewMixin, ListView):
         group = self.request.user.expense_groups.get(pk=self.kwargs['group'])
         context = super(ExpenseList, self).get_context_data(**kwargs)
         context['group'] = group
+        context['users'] = group.users_with_totals(self.request.user)
         return context
 
 class ExpenseCreate(ExpenseViewMixin, LoginRequiredViewMixin, CreateView):

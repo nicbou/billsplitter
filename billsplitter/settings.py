@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'auth',
     'social_auth',
     'south',
+    'mathfilters',
 )
 
 LOGGING = {
