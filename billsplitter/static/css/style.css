@@ -1,6 +1,8 @@
 .btn{font-weight:normal!important;}
 .hero-unit{background:url('../img/background.jpg');}
 
+.invite-url{word-wrap: break-word;}
+
 @media (max-width: 480px) {
 	h1 .pull-right{margin:10px 0;}
 	.btn{white-space: nowrap}
