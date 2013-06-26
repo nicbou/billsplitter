@@ -58,7 +58,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="wrapper" class="container">
+	<div id="wrapper" class="{% block wrapper_class %}container{% endblock %}">
 		{% block messages %}
 			{% if messages %}
 				{% for message in messages %}

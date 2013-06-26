@@ -6,6 +6,12 @@
 /* Theme corrections */
 .table tbody tr.info>td{color:#555;background-color:#eaf4ff}
 
+
+/* Front page */
+.jumbotron{background:url('../img/piggy-1366.jpg') no-repeat 0 -100px; height:600px; box-shadow:0 10px 10px -10px rgba(0,0,0,0.2)}
+	.jumbotron h1{position:absolute;top:520px;left:540px;transform:rotate(2deg);}
+
+
 @media (max-width: 480px) {
 	h1 .pull-right{margin:10px 0;}
 	.btn{white-space: nowrap}
@@ -14,4 +20,26 @@
 @media(max-width:979px){
 	/* The current template doesn't appropriately color the menu links on mobile devices */
 	.navbar-inverse .nav-collapse .nav>li>a, .navbar-inverse .nav-collapse .dropdown-menu a {color:#fff;font-weight:normal}
+}
+
+/* Large desktop */
+@media (min-width: 1366px) {
+	/* Front page */
+	.jumbotron{background:url('../img/piggy.jpg') no-repeat 0 -100px;}
+		.jumbotron h1{left:820px;}
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 1024px) {
+	/* Front page */
+	.jumbotron{background:url('../img/piggy-1024.jpg') no-repeat 0 -100px;}
+		.jumbotron h1{left:365px;}
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	/* Front page */
+	.jumbotron{background:#007fff;margin-top:20px;padding:20px;height:auto;}
+		.jumbotron h1{position:static;color:#fff;}
+		.jumbotron p{color:#fff;}
 }
