@@ -94,8 +94,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'billsplitter.urls'
@@ -120,6 +119,8 @@ TWITTER_CONSUMER_SECRET      = 'x8ECGChH7mCtZGtzW4uthpWd3Dl8xnXFlZWxcTgv6Y'
 
 LOGIN_URL          = '/login/'
 LOGIN_REDIRECT_URL = reverse_lazy('group_list')
+
+LOGIN_ERROR_URL = reverse_lazy('index')
 
 INSTALLED_APPS = (
     'django.contrib.auth',
