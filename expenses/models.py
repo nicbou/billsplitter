@@ -5,6 +5,7 @@ from django.db.models import Sum, Count
 from django.core.urlresolvers import reverse
 import hashlib
 from time import mktime
+from datetime import date
 
 
 class GroupManager(models.Manager):
@@ -83,7 +84,7 @@ class Expense(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=255)
     description = models.TextField(verbose_name=_('Description'), blank=True)
     amount = models.DecimalField(max_digits=7, decimal_places=2, verbose_name=_('Amount'))
-    date = models.DateField(auto_now_add=True, verbose_name=_('Date'))
+    date = models.DateField(default=date.today, verbose_name=_('Date'))
     user = models.ForeignKey(DjangoUser, verbose_name=_('Buyer'), related_name='expenses')
     group = models.ForeignKey(Group, verbose_name=_('Group'))
     
@@ -91,7 +92,7 @@ class Expense(models.Model):
         return self.title
         
     class Meta:
-        ordering = ['-date',]
+        ordering = ['-date','pk']
         get_latest_by = 'date'
         verbose_name = _('Expense')
         verbose_name_plural = _('Expenses')
