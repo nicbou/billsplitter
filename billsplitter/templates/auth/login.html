@@ -7,9 +7,9 @@
 		<p>
 			{% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
 		</p>
-		<p>
+		<p class="login-buttons">
 			<a class="btn" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
-			<span class="muted"> or </span>
+			<span class="or muted"> or </span>
 			<a class="btn" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
 		</p>
 		<small class="muted">

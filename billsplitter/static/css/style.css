@@ -17,6 +17,8 @@
 @media (max-width: 480px) {
 	h1 .pull-right{margin:10px 0;}
 	.btn{white-space: nowrap}
+	.login-buttons{text-align: center}
+		.login-buttons .or{display:block;}
 } 
 
 @media(max-width:979px){

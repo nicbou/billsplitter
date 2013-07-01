@@ -56,9 +56,9 @@
 				<p>
 					{% trans "Signup is instant. Just pick which account you'll use with Bill Splitter." %}
 				</p>
-				<p>
+				<p class="login-buttons">
 					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
-					<span class="muted"> or </span>
+					<span class="or muted"> or </span>
 					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
 				</p>
 				<p class="muted"><small>{% trans "We do not have access to your profile information, your wall or your tweets." %}</small></p>
