@@ -2,6 +2,7 @@
 {% block page %}
 	{% load i18n %}
 	{% load mathfilters %}
+	{% load name_filters %}
 	<h1 class="page-header">
 		{{ group.name }}
 		<div class="pull-right">
@@ -85,7 +86,7 @@
 						<tr class="refund info">
 							<td>{{ expense.refund_from }}</td>
 							<td class="hidden-phone">{{ expense.description }}</td>
-							<td>{{ expense.user.get_full_name }}</td>
+							<td>{{ expense.user.get_full_name|abbreviate }}</td>
 							<td>{{ expense.date|date:"M d" }}</td>
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td align="right">
@@ -100,7 +101,7 @@
 						<tr>
 							<td>{{ expense.title }}</td>
 							<td class="hidden-phone">{{ expense.description }}</td>
-							<td>{{ expense.user.get_full_name }}</td>
+							<td><span class="visible-desktop">{{ expense.user.get_full_name }}</span><span class="hidden-desktop">{{ expense.user.get_full_name|abbreviate }}</span></td>
 							<td>{{ expense.date|date:"M d" }}</td>
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td align="right">
