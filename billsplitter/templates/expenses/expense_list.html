@@ -20,7 +20,7 @@
 	</h1>
 	<div class="row">
 		<div class="span6">
-			<b>{% trans "In this group:" %}</b>
+			<b class="floatfix">{% trans "In this group:" %}</b>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -43,7 +43,7 @@
 							<td>
 								{% with line.relative_total|default:0 as relative_total %}
 									{% if relative_total < 0 %}
-										{% blocktrans with amount=relative_total|floatformat:2 %}
+										{% blocktrans with amount=relative_total|abs|floatformat:2 %}
 											{{ amount }}$ behind
 										{% endblocktrans %}
 									{% elif line.user.pk == request.user.pk %}
