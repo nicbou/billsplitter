@@ -3,6 +3,8 @@
 
 .invite-url{word-wrap: break-word;}
 
+.floatfix{display:block;clear:both;}
+
 /* Theme corrections */
 .table tbody tr.info>td{color:#555;background-color:#eaf4ff}
 
