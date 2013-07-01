@@ -3,6 +3,7 @@ from expenses.models import Group, Expense, Refund
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.core.exceptions import ValidationError
+from betterforms.widgets import DatePickerInput
 
 class GroupForm(forms.ModelForm):
     class Meta:
@@ -21,6 +22,7 @@ class ExpenseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         users = kwargs.pop('users', None)
         super(ExpenseForm, self).__init__(*args, **kwargs)
+        self.fields['date'].widget = DatePickerInput()
 
         if users:
             self.fields['user'].queryset = users
