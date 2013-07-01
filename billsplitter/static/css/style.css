@@ -6,6 +6,7 @@
 .floatfix{display:block;clear:both;}
 
 /* Theme corrections */
+.table{margin-bottom:0}
 .table tbody tr.info>td{color:#555;background-color:#eaf4ff}
 
 
@@ -13,15 +14,22 @@
 .jumbotron{background:url('../img/piggy-1366.jpg') no-repeat 0 -100px; height:600px; box-shadow:0 10px 10px -10px rgba(0,0,0,0.2)}
 	.jumbotron h1{position:absolute;top:520px;left:540px;transform:rotate(2deg);}
 
-
 @media (max-width: 480px) {
 	h1 .pull-right{margin:10px 0;}
 	.btn{white-space: nowrap}
 } 
 
 @media(max-width:979px){
+	/* Theme corrections */
+	h1{font-size: 35px}
+
 	/* The current template doesn't appropriately color the menu links on mobile devices */
 	.navbar-inverse .nav-collapse .nav>li>a, .navbar-inverse .nav-collapse .dropdown-menu a {color:#fff;font-weight:normal}
+	
+	/* Expenses */
+	table.expenses{width: 100%;font-size: 80%}
+	table.expenses td.name, table.expenses td.actions{white-space:nowrap;overflow:hidden;text-overflow: ellipsis;}
+	td.actions .btn{padding-left:6px;padding-right:6px}
 }
 
 /* Large desktop */
