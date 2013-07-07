@@ -5,6 +5,7 @@ from django.db.models import Sum, Count
 from django.core.urlresolvers import reverse
 import hashlib
 from time import mktime
+from datetime import date
 
 
 class GroupManager(models.Manager):
@@ -44,19 +45,29 @@ class Group(models.Model):
     def invite_url(self):
         return reverse('invite_detail', kwargs={'pk':self.pk, 'hash':self.invite_code})
 
-    @property
-    def users_with_totals(self):
+    def users_with_totals(self, current_user=None):
         user_list = []
         users = self.users.prefetch_related('expenses').all()
+        current_user_total = None
         for user in self.users.all():
             expenses = user.expenses.all().filter(group=self.pk).aggregate(total=Sum('amount'))
             user_dict = {
                 'user': user,
                 'total': expenses['total']
             }
+
+            #If we loop over the current user, add his total
+            if current_user and current_user.pk == user.pk:
+                current_user_total = expenses['total']
+
             user_list.append(user_dict)
-        from django.db import connection
-        print(connection.queries)
+
+
+        #Set the relative totals
+        if current_user_total:
+            for user_dict in user_list:
+                user_dict['relative_total'] = user_dict['total'] - current_user_total
+
         return user_list
 
     def get_absolute_url(self):
@@ -73,7 +84,7 @@ class Expense(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=255)
     description = models.TextField(verbose_name=_('Description'), blank=True)
     amount = models.DecimalField(max_digits=7, decimal_places=2, verbose_name=_('Amount'))
-    date = models.DateField(auto_now_add=True, verbose_name=_('Date'))
+    date = models.DateField(default=date.today, verbose_name=_('Date'))
     user = models.ForeignKey(DjangoUser, verbose_name=_('Buyer'), related_name='expenses')
     group = models.ForeignKey(Group, verbose_name=_('Group'))
     
@@ -81,7 +92,7 @@ class Expense(models.Model):
         return self.title
         
     class Meta:
-        ordering = ['-date',]
+        ordering = ['-date','pk']
         get_latest_by = 'date'
         verbose_name = _('Expense')
         verbose_name_plural = _('Expenses')
@@ -96,7 +107,7 @@ class Refund(models.Model):
     description = models.TextField(verbose_name=_('Notes'), blank=True)
 
     def __unicode__(self):
-        return _("Refund to %s") % self.expense_to.user
+        return _("Refund to %s") % self.expense_to.user.get_full_name()
 
     def delete(self, *args, **kwargs):
         self.expense_from.delete()

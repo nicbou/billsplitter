@@ -5,5 +5,5 @@
 	<p>{% blocktrans with group_name=group.name %}
 	    To invite your friends to join the <b>{{ group_name }}</b> group, send them the following URL:
 	{% endblocktrans %}</p>
-	<p class="lead">http://{{ request.META.HTTP_HOST }}{{ group.invite_url }}</p>
+	<p class="lead invite-url">http://{{ request.META.HTTP_HOST }}{{ group.invite_url }}</p>
 {% endblock page %}
