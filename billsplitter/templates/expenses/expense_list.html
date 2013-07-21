@@ -115,6 +115,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		{% include "pagination.html" %}
 	{% else %}
 		<p class="muted">{% trans "There are no expenses in this group." %} <a href="{% url 'expense_create' group.pk %}">{% trans "Add an expense" %}</a></p>
 	{% endif %}
