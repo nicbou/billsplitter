@@ -86,13 +86,15 @@
 						<tr class="refund info">
 							<td>{{ expense.refund_from }}</td>
 							<td class="hidden-phone">{{ expense.description }}</td>
-							<td class="name">{{ expense.user.get_full_name|abbreviate }}</td>
+							<td class="name"><span class="visible-desktop">{{ expense.user.get_full_name }}</span><span class="hidden-desktop">{{ expense.user.get_full_name|abbreviate }}</span></td>
 							<td class="hidden-phone">{{ expense.date|date:"M d" }}</td>
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td class="actions">
-								<div class="pull-right">
-									<a class="btn btn-small" href="{% url 'refund_delete' group.pk expense.refund_from.pk %}"><i class="icon-remove"></i></a>
-								</div>
+								{% if group.users_can_edit or expense.user == request.user %}
+									<div class="pull-right">
+										<a class="btn btn-small" href="{% url 'refund_delete' group.pk expense.refund_from.pk %}"><i class="icon-remove"></i></a>
+									</div>
+								{% endif %}
 							</td>
 						</tr>
 					{% elif expense.refund_to %}
@@ -106,8 +108,10 @@
 							<td>{{ expense.amount|floatformat:2 }}$</td>
 							<td class="actions">
 								<div class="pull-right">
-									<a class="btn btn-small" href="{% url 'expense_update' group.pk expense.pk %}"><i class="icon-pencil"></i><span class="visible-desktop"> {% trans "Edit expense" %}</span></a>
-									<a class="btn btn-small" href="{% url 'expense_delete' group.pk expense.pk %}"><i class="icon-remove"></i></a>
+									{% if group.users_can_edit or expense.user == request.user %}
+										<a class="btn btn-small" href="{% url 'expense_update' group.pk expense.pk %}"><i class="icon-pencil"></i></a>
+										<a class="btn btn-small" href="{% url 'expense_delete' group.pk expense.pk %}"><i class="icon-remove"></i></a>
+									{% endif %}
 								</div>
 							</td>
 						</tr>
