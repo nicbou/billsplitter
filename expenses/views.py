@@ -155,6 +155,17 @@ class ExpenseCreate(ExpenseViewMixin, LoginRequiredViewMixin, CreateView):
 
         return super(ExpenseCreate, self).form_valid(form)
 
+    def get_success_url(self):
+        """
+        If request.POST['add_another'] is set, add another item
+        instead of redirecting to the usual URL.
+        """
+        if self.request.POST.get('add_another', None):
+            return reverse('expense_create', kwargs={'group': self.kwargs['group']})
+        return super(RefundCreate, self).get_success_url()
+
+        return super(RefundCreate, self).form_valid(form)
+
 
 class ExpenseUpdate(ExpenseViewMixin, LoginRequiredViewMixin, UpdateView):
     form_class = ExpenseForm
@@ -216,6 +227,15 @@ class RefundCreate(RefundViewMixin, LoginRequiredViewMixin, CreateView):
         form.instance.save()
 
         return super(RefundCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        """
+        If request.POST['add_another'] is set, add another item
+        instead of redirecting to the usual URL.
+        """
+        if self.request.POST.get('add_another', None):
+            return reverse('refund_create', kwargs={'group': self.kwargs['group']})
+        return super(RefundCreate, self).get_success_url()
 
 
 class RefundDelete(RefundViewMixin, LoginRequiredViewMixin, DeleteView):
