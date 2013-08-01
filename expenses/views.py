@@ -6,10 +6,11 @@ from expenses.models import *
 from django.core.urlresolvers import reverse_lazy
 from expenses.forms import *
 from auth.views import LoginRequiredViewMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from extra_views import SearchableListMixin
 
 class Home(TemplateView):
     """
@@ -125,8 +126,9 @@ class ExpenseViewMixin(object):
         return reverse_lazy('expense_list',kwargs={'group':self.kwargs['group']})
 
 
-class ExpenseList(ExpenseViewMixin, LoginRequiredViewMixin, ListView):
+class ExpenseList(SearchableListMixin, ExpenseViewMixin, LoginRequiredViewMixin, ListView):
     paginate_by = 20
+    search_fields = ['title', 'description']
     def get_context_data(self, **kwargs):
         group = self.request.user.expense_groups.get(pk=self.kwargs['group'])
         context = super(ExpenseList, self).get_context_data(**kwargs)

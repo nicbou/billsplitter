@@ -2,13 +2,13 @@
 	<div class="pagination">
 		<ul>
 			{% if page_obj.has_previous %}
-				<li><a href="?page={{ page_obj.previous_page_number }}">«</a></li>
+				<li><a href="?{{ request.GET.urlencode }}&amp;page={{ page_obj.previous_page_number }}">«</a></li>
 			{% endif %}
 			<li class="disabled">
 				<a href="#">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
 			</li>
 			{% if page_obj.has_next %}
-				<li><a href="?page={{ page_obj.next_page_number }}">»</a></li>
+				<li><a href="?{{ request.GET.urlencode }}&amp;page={{ page_obj.next_page_number }}">»</a></li>
 			{% endif %}
 		</ul>
 	</div>

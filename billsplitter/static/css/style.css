@@ -19,6 +19,9 @@
 	.btn{white-space: nowrap}
 	.login-buttons{text-align: center}
 		.login-buttons .or{display:block;}
+
+	/* Expenses */
+	.page-actions{float:left; width:100%;}
 } 
 
 @media(max-width:979px){
