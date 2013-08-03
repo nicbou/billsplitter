@@ -21,6 +21,7 @@ class GroupManager(models.Manager):
     def get_query_set(self):
         return super(GroupManager, self).get_query_set().select_related('expenses','users').annotate(user_count=Count('users'))
 
+
 class Group(models.Model):
     """
     Works in a similar fashion to the default Django groups, but without unique names, and with a creation date
@@ -28,7 +29,8 @@ class Group(models.Model):
     name = models.CharField(_('Group name'), max_length=80, unique=False)
     date_created = models.DateTimeField(_('Creation date'), auto_now_add=True)
 
-    users = models.ManyToManyField(DjangoUser, related_name='expense_groups') #We must use the DjangoUser becaus proxies cannot see expense_groups
+    users = models.ManyToManyField(DjangoUser, related_name='expense_groups')  # We must use the DjangoUser becaus proxies cannot see expense_groups
+    users_can_edit = models.BooleanField(_("Members can edit each other's expenses"), default=True)
 
     objects = GroupManager()
 
@@ -43,7 +45,7 @@ class Group(models.Model):
 
     @property
     def invite_url(self):
-        return reverse('invite_detail', kwargs={'pk':self.pk, 'hash':self.invite_code})
+        return reverse('invite_detail', kwargs={'pk': self.pk, 'hash': self.invite_code})
 
     def users_with_totals(self, current_user=None):
         user_list = []
@@ -77,6 +79,7 @@ class Group(models.Model):
         verbose_name = _('Group')
         verbose_name_plural = _('Groups')
 
+
 class Expense(models.Model):
     """
     A basic expense. Each expense is made by one user, and is added to the user's total expenses
@@ -96,6 +99,7 @@ class Expense(models.Model):
         get_latest_by = 'date'
         verbose_name = _('Expense')
         verbose_name_plural = _('Expenses')
+
 
 class Refund(models.Model):
     """

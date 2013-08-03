@@ -30,42 +30,14 @@
 		</div>
 		<hr>
 		<div class="row">
-			<div class="span8">
-				<h2>Ditch the accountant</h2>
-				<p>Bill Splitter keeps all of your expenses together and tells you exactly how much you owe your peers. You don't need to keep receipts, calculate totals and run after your money.</p>
-			</div>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="span8 offset4">
-				<h2>Stop collecting</h2>
-				<p>If someone is lagging behind, they will get an email reminder before it gets out of control. They can either match their expenses or settle with cash.</p>
-			</div>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="span8">
-				<h2>Take it with you</h2>
-				<p>Bill Splitter works on all mobile devices, so you can write down expenses as they happen. Unlike your pile of receipts, it'll never get lost.</p>
-			</div>
-		</div>
-		<hr>
-		{% if not user.is_authenticated %}
-			<div style="text-align:center">
+			<div class="span4">
 				<h2>{% trans "Get started" %}</h2>
-				<p>
-					{% trans "Signup is instant. Just pick which account you'll use with Bill Splitter." %}
-				</p>
+				<p>{% trans "Click the blue button, we'll handle the rest." %}</p>
 				<p class="login-buttons">
-					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
-					<span class="or muted"> or </span>
-					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
+					<a class="btn btn-large btn-primary" href="{% url 'signup' %}{% if request.GET.next %}{% endif %}">{% trans "Create an account" %}</a>
 				</p>
-				<p class="muted"><small>{% trans "We do not have access to your profile information, your wall or your tweets." %}</small></p>
 			</div>
-		{% else %}
-			<p>{% trans "You are already logged in." %}</p>
-			<a class="btn btn-primary" href="{% url 'group_list' %}">{% trans "Go to my expenses" %} <i class="icon-chevron-right icon-white"></i></a>
-		{% endif %}
+			<div class="span8 text-center hidden-phone"><img src="{{ STATIC_URL }}/img/front.png"></div>
+		</div>
 	</div>
 {% endblock page %}

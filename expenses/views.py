@@ -6,10 +6,11 @@ from expenses.models import *
 from django.core.urlresolvers import reverse_lazy
 from expenses.forms import *
 from auth.views import LoginRequiredViewMixin
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from extra_views import SearchableListMixin
 
 class Home(TemplateView):
     """
@@ -20,11 +21,13 @@ class Home(TemplateView):
             return redirect('group_list')
         return super(Home, self).dispatch(request, *args, **kwargs)
 
+
 class GroupList(LoginRequiredViewMixin, ListView):
     model = Group
 
     def get_queryset(self):
         return self.request.user.expense_groups.all()
+
 
 class GroupCreate(LoginRequiredViewMixin, CreateView):
     model = Group
@@ -35,9 +38,11 @@ class GroupCreate(LoginRequiredViewMixin, CreateView):
         self.object.users.add(self.request.user)
         return super(GroupCreate, self).form_valid(form) 
 
+
 class GroupUpdate(LoginRequiredViewMixin, UpdateView):
     model = Group
     form_class = GroupForm
+
 
 class GroupDelete(LoginRequiredViewMixin, DeleteView):
     model = Group
@@ -67,6 +72,7 @@ class InviteCreate(LoginRequiredViewMixin, DetailView):
     def get_queryset(self):
         return self.request.user.expense_groups.all()
 
+
 class InviteDetail(LoginRequiredViewMixin, DetailView):
     """
     Shows an invitation, provided that you have a valid invite code
@@ -80,6 +86,7 @@ class InviteDetail(LoginRequiredViewMixin, DetailView):
             return group
         else:
             raise Http404
+
 
 class InviteAccept(LoginRequiredViewMixin, RedirectView):
     """
@@ -118,13 +125,17 @@ class ExpenseViewMixin(object):
     def get_success_url(self):
         return reverse_lazy('expense_list',kwargs={'group':self.kwargs['group']})
 
-class ExpenseList(ExpenseViewMixin, LoginRequiredViewMixin, ListView):
+
+class ExpenseList(SearchableListMixin, ExpenseViewMixin, LoginRequiredViewMixin, ListView):
+    paginate_by = 20
+    search_fields = ['title', 'description']
     def get_context_data(self, **kwargs):
         group = self.request.user.expense_groups.get(pk=self.kwargs['group'])
         context = super(ExpenseList, self).get_context_data(**kwargs)
         context['group'] = group
         context['users'] = group.users_with_totals(self.request.user)
         return context
+
 
 class ExpenseCreate(ExpenseViewMixin, LoginRequiredViewMixin, CreateView):
     form_class = ExpenseForm
@@ -146,8 +157,19 @@ class ExpenseCreate(ExpenseViewMixin, LoginRequiredViewMixin, CreateView):
 
         return super(ExpenseCreate, self).form_valid(form)
 
+    def get_success_url(self):
+        """
+        If request.POST['add_another'] is set, add another item
+        instead of redirecting to the usual URL.
+        """
+        if self.request.POST.get('add_another', None):
+            return reverse('expense_create', kwargs={'group': self.kwargs['group']})
+        return super(ExpenseCreate, self).get_success_url()
+
+
 class ExpenseUpdate(ExpenseViewMixin, LoginRequiredViewMixin, UpdateView):
     form_class = ExpenseForm
+
 
 class ExpenseDelete(ExpenseViewMixin, LoginRequiredViewMixin, DeleteView):
     pass
@@ -167,6 +189,7 @@ class RefundViewMixin(object):
             
     def get_success_url(self):
         return reverse_lazy('expense_list',kwargs={'group':self.kwargs['group']})
+
 
 class RefundCreate(RefundViewMixin, LoginRequiredViewMixin, CreateView):
     form_class = RefundForm
@@ -204,6 +227,16 @@ class RefundCreate(RefundViewMixin, LoginRequiredViewMixin, CreateView):
         form.instance.save()
 
         return super(RefundCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        """
+        If request.POST['add_another'] is set, add another item
+        instead of redirecting to the usual URL.
+        """
+        if self.request.POST.get('add_another', None):
+            return reverse('refund_create', kwargs={'group': self.kwargs['group']})
+        return super(RefundCreate, self).get_success_url()
+
 
 class RefundDelete(RefundViewMixin, LoginRequiredViewMixin, DeleteView):
     pass

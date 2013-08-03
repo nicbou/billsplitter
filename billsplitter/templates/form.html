@@ -3,11 +3,7 @@
 	{{ form.media }}
 	{% if form.non_field_errors %}
 		<div class="alert alert-error">
-			<ul>
-				{% for error in form.non_field_errors %}
-					<li>{{ error }}</li>
-				{% endfor %}
-			</ul>
+			{{ form.non_field_errors|join:"<br/>" }}
 		</div>
 	{% endif %}
 	{% for field in form.visible_fields %}

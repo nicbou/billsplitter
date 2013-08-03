@@ -8,7 +8,7 @@ from betterforms.widgets import DatePickerInput
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name']
+        fields = ['name', 'users_can_edit']
 
 class UserModelChoiceField(forms.ModelChoiceField):
     # Normally, we would simply use the proxy model from expenses.models

@@ -8,6 +8,8 @@
 /* Theme corrections */
 .table{margin-bottom:0}
 .table tbody tr.info>td{color:#555;background-color:#eaf4ff}
+.btn-large{padding:15px 20px;}
+.alert-danger, .alert-error{background:#B32020;}
 
 
 /* Front page */
@@ -19,6 +21,9 @@
 	.btn{white-space: nowrap}
 	.login-buttons{text-align: center}
 		.login-buttons .or{display:block;}
+
+	/* Expenses */
+	.page-actions{float:left; width:100%;}
 } 
 
 @media(max-width:979px){

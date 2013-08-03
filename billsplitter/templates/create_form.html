@@ -1,0 +1,7 @@
+{% extends "form.html" %}
+{% load i18n %}
+{% block extra_buttons %}
+	{% if not form.instance.pk %}
+		<button type="submit" class="btn btn-large" name="add_another" value="1">{% trans "Save then add another" %}</button>	
+	{% endif %}
+{% endblock extra_buttons %}

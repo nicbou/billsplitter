@@ -54,10 +54,12 @@
 							<li class="divider"></li>
 							<li><a href="{% url 'django.contrib.auth.views.logout' %}">{% trans "Logout" %}</a></li>
 						{% else %}
-							<li><a href="{% url 'django.contrib.auth.views.login' %}">{% trans "Login / Sign up" %}</a></li>
+							<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+							<li><a href="{% url 'signup' %}">{% trans "Sign up" %}</a></li>
 						{% endif %}
 					</ul>
 				</div>
+				{% block menu_bar_extras %}{% endblock %}
 			</div>
 		</div>
 	</div>
