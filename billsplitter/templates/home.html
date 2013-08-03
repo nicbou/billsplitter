@@ -53,19 +53,12 @@
 		{% if not user.is_authenticated %}
 			<div style="text-align:center">
 				<h2>{% trans "Get started" %}</h2>
-				<p>
-					{% trans "Signup is instant. Just pick which account you'll use with Bill Splitter." %}
-				</p>
 				<p class="login-buttons">
-					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
-					<span class="or muted"> or </span>
-					<a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
+					<a class="btn btn-large btn-primary" href="{% url 'signup' %}{% if request.GET.next %}{% endif %}">{% trans "Create an account" %}</a>
 				</p>
-				<p class="muted"><small>{% trans "We do not have access to your profile information, your wall or your tweets." %}</small></p>
 			</div>
 		{% else %}
-			<p>{% trans "You are already logged in." %}</p>
-			<a class="btn btn-primary" href="{% url 'group_list' %}">{% trans "Go to my expenses" %} <i class="icon-chevron-right icon-white"></i></a>
+			<a class="btn btn-large btn-primary" href="{% url 'group_list' %}">{% trans "Go to my expenses" %}</a>
 		{% endif %}
 	</div>
 {% endblock page %}

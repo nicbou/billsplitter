@@ -12,9 +12,6 @@ urlpatterns = patterns('',
 
 	url(r'^$', Home.as_view(template_name="home.html"), name='index'),
 
-	url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'auth/login.html'}),
-	url(r'^logout/$', 'django.contrib.auth.views.logout', kwargs={'next_page':'/'}),
-
 	#Apps
 	url(r'', include('social_auth.urls')),
 	url(r'', include('auth.urls')),

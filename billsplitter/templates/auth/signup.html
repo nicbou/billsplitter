@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block page %}
+    {% if not user.is_authenticated %}
+        <h1 class="page-header">{% trans "One-click signup" %}</h1>
+        <p>
+            {% trans "Signup is instant. How neat is that? Just pick which account you'll use with Bill Splitter." %}
+        </p>
+        <p class="login-buttons">
+            <a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Facebook account" %}</a>
+            <span class="or">{% trans " or " %}</span>
+            <a class="btn btn-primary" href="{% url 'social_auth.views.auth' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Use my Twitter account" %}</a>
+        </p>
+
+        <h2 class="page-header">{% trans "Old school signup" %}</h2>
+        {% trans "Create my account" as signup_text %}
+        {% include "form.html" with form=form submit_text=signup_text %}
+    {% else %}
+        <p>{% trans "You are already logged in." %}</p>
+        <a class="btn btn-primary" href="{% url 'group_list' %}"><i class="icon-chevron-left"></i> {% trans "Return to my expenses" %}</a>
+    {% endif %}
+
+{% endblock %}
