@@ -164,9 +164,7 @@ class ExpenseCreate(ExpenseViewMixin, LoginRequiredViewMixin, CreateView):
         """
         if self.request.POST.get('add_another', None):
             return reverse('expense_create', kwargs={'group': self.kwargs['group']})
-        return super(RefundCreate, self).get_success_url()
-
-        return super(RefundCreate, self).form_valid(form)
+        return super(ExpenseCreate, self).get_success_url()
 
 
 class ExpenseUpdate(ExpenseViewMixin, LoginRequiredViewMixin, UpdateView):
