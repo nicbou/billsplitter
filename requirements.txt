@@ -11,3 +11,4 @@ oauth2==1.5.211
 python-openid==2.2.5
 wsgiref==0.1.2
 django-extra-views==0.6.3
+gunicorn
