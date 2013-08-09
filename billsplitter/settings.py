@@ -1,8 +1,7 @@
 # Django settings for billsplitter project.
 from django.core.urlresolvers import reverse_lazy
-from os import environ
-from urlparse import urlparse
 import os
+import dj_database_url
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -14,28 +13,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Default test database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'expenses',                      # Or path to database file if using sqlite3.
-        'USER': 'testuser',                      # Not used with sqlite3.
-        'PASSWORD': 'testpwd',                  # Not used with sqlite3.
-        'HOST': 'revo',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
-# Heroku database
-if environ.has_key('DATABASE_URL'):
-    url = urlparse(environ['DATABASE_URL'])
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': url.path[1:],
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port,
-    }
+DATABASES['default'] =  dj_database_url.config()
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
