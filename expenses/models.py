@@ -55,7 +55,7 @@ class Group(models.Model):
             expenses = user.expenses.all().filter(group=self.pk).aggregate(total=Sum('amount'))
             user_dict = {
                 'user': user,
-                'total': expenses['total']
+                'total': expenses['total'] or Decimal('0')
             }
 
             #If we loop over the current user, add his total
