@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 import hashlib
 from time import mktime
 from datetime import date
+from decimal import Decimal
 
 
 class GroupManager(models.Manager):
@@ -51,7 +52,7 @@ class Group(models.Model):
         user_list = []
         users = self.users.prefetch_related('expenses').all()
         current_user_total = None
-        for user in self.users.all():
+        for user in users:
             expenses = user.expenses.all().filter(group=self.pk).aggregate(total=Sum('amount'))
             user_dict = {
                 'user': user,
