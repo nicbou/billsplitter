@@ -1,7 +1,7 @@
 Bill Splitter
 =============
 
-Demo: http://home.nicolasbouliane.com:82
+See it in action: http://bills.nicolasbouliane.com
 
 A simple shared expense manager for Django. Useful for couples and roommates looking to fairly split their expenses.
 
@@ -26,6 +26,5 @@ Why it's awesome
 What's missing
 --------------
 
-I consider the app feature-complete for my own needs, but I plan progressively add new features, including iOS icons.
-
-Bill Splitter notably fails to account for people who join the group at a later time. I do not plan to add this feature yet.
+This app is currently deployed, and I have not come across bugs in the past three months. I will not implement
+additional features, but considering the project's usefulness, all bugs are dealt with as soon as they are found.
